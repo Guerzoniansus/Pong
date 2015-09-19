@@ -28,7 +28,15 @@ public class Bat extends Rectangle {
 	public void updatePosition(double newy) {
 
 		this.y = newy;
+		
+		if (y > game.roomHeight - sprite.getHeight(null)) {
+			y = game.roomHeight - sprite.getHeight(null);
+		}
 
+	}
+	
+	public Image getSprite() {
+		return sprite;
 	}
 
 }
