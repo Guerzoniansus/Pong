@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable {
 	
+	// PONG
+	
 	Game game;
 	
 	Graphics graphics;
