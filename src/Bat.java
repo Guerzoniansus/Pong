@@ -29,8 +29,8 @@ public class Bat extends Rectangle {
 
 		this.y = newy;
 		
-		if (y > game.roomHeight - sprite.getHeight(null)) {
-			y = game.roomHeight - sprite.getHeight(null);
+		if (y > game.roomHeight - sprite.getHeight(null) - game.img_wall.getHeight(null) - 13) {
+			y = game.roomHeight - sprite.getHeight(null) - game.img_wall.getHeight(null) - 13;
 		}
 
 	}

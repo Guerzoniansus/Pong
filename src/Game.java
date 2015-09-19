@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -22,12 +23,17 @@ public class Game extends Canvas implements Runnable {
 	int roomWidth;
 	int roomHeight;
 
-	Image wall, bat, ball;
+	Image img_wall, img_bat;
+	
+	Wall[] walls;
 
 	int batHeight = 64;
 	int batWidth = 16;
+	
+	int ballspeed = 5;
 
 	Bat player, ai;
+	Ball ball;
 
 	boolean isRunning;
 
@@ -51,7 +57,12 @@ public class Game extends Canvas implements Runnable {
 
 		game.addMouseMotionListener(new MouseListener());
 
-		player = new Bat(roomWidth - 70, roomHeight / 2 - 20, bat, game);
+		player = new Bat(roomWidth - 70, roomHeight / 2 - 20, img_bat, game);
+		ball = new Ball(200, 300, 16, 16, 1, 2, Direction.RIGHT, Direction.UP);
+		
+		walls = new Wall[2];
+		walls[0] = new Wall(0, 0, roomWidth, 16, img_wall);
+		walls[1] = new Wall(0, 0, roomWidth, 16, img_wall);
 
 		isRunning = true;
 	}
@@ -60,11 +71,32 @@ public class Game extends Canvas implements Runnable {
 	public void run() {
 
 		while (isRunning) {
+			
+			if (checkBallColission() != null) {
+				
+				
+				
+			}
+			
+			ball.updatePosition();
 
 			repaint();
 
 		}
 
+	}
+	
+	public String checkBallColission() {
+		
+		if (ball.intersects(player)) {
+			return "player";
+		}
+		
+		else if (ball.intersects(walls[0]) || ball.intersects(walls[1])) {
+			return "wall";
+		}
+		
+		else return null;
 	}
 
 	public void start() {
@@ -75,17 +107,24 @@ public class Game extends Canvas implements Runnable {
 	@Override
 	public void paint(Graphics g) {
 
-		g.drawImage(wall, 0, 0, null);
-		g.drawImage(wall, 0, roomHeight - 46, null);
-
+		//g.drawImage(img_wall, 0, 0, null);
+		//g.drawImage(img_wall, 0, roomHeight - 45, null);
+		
+		g.setColor(Color.WHITE);
+		
+		ball.draw(g);
 		player.draw(g);
+		
+		for (Wall wall : walls) {
+			wall.draw(g);
+		}
 
 	}
 
 	public void loadGraphics() throws IOException {
 
-		wall = fetchResizedImage("wall.png", roomWidth, 16);
-		bat = fetchResizedImage("wall.png", batWidth, batHeight);
+		img_wall = fetchResizedImage("wall.png", roomWidth, 16);
+		img_bat = fetchResizedImage("wall.png", batWidth, batHeight);
 
 	}
 
