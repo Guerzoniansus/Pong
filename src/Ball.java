@@ -3,19 +3,19 @@ import java.awt.Rectangle;
 
 public class Ball extends Rectangle {
 	
-	public int x;
-	public int y;
+	public double x;
+	public double y;
 	
 	public int width;
 	public int height;
 	
-	int ballspeedX;
-	int ballspeedY;
+	double ballspeedX;
+	double ballspeedY;
 	
 	Direction directionHorizontal;
 	Direction directionVertical;
 	
-	public Ball(int x, int y, int width, int height, int ballspeedX, int ballspeedY, Direction horizontal, Direction vertical) {
+	public Ball(int x, int y, int width, int height, double ballspeedX, double ballspeedY, Direction horizontal, Direction vertical) {
 		
 		this.x = x;
 		this.y = y;
@@ -29,7 +29,7 @@ public class Ball extends Rectangle {
 	}
 	
 	public void draw(Graphics g) {
-		g.fillOval(x, y, width, height);
+		g.fillOval((int) x, (int) y, width, height);
 	}
 	
 	public void updatePosition() {
@@ -42,6 +42,44 @@ public class Ball extends Rectangle {
 		case UP: y = y - ballspeedY; break;
 		case DOWN: y = y + ballspeedY; break;
 		}
+	}
+	
+	public void changeDirection(String collision) {
+		
+		if (collision.equals("player")) {
+			
+			setDirection("horizontal", getOppositeDirection(getDirectionHorizontal()));
+			
+		}
+		
+		else if (collision.equals("wall")) {
+			
+			setDirection("vertical", getOppositeDirection(getDirectionVertical()));
+			
+		}
+		
+	}
+	
+	public void setDirection (String axis, Direction newdir) {
+		
+		switch (axis) {
+		case "horizontal": directionHorizontal = newdir; break;
+		case "vertical": directionVertical = newdir; break;
+		}
+		
+	}
+	
+	public Direction getOppositeDirection(Direction dir) {
+		switch (dir) {
+		
+		case UP: return Direction.DOWN;
+		case DOWN: return Direction.UP;
+		case LEFT: return Direction.RIGHT;
+		case RIGHT: return Direction.LEFT;
+				
+		}
+		
+		return null;
 	}
 	
 	public Direction getDirectionHorizontal() {

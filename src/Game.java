@@ -60,7 +60,7 @@ public class Game extends Canvas implements Runnable {
 		game.addMouseMotionListener(new MouseListener());
 
 		player = new Bat(roomWidth - 70, roomHeight / 2 - 20, img_bat, game);
-		ball = new Ball(200, 300, 16, 16, 1, 2, Direction.RIGHT, Direction.UP);
+		ball = new Ball(200, 300, 16, 16, 3.5, 1, Direction.RIGHT, Direction.UP);
 		
 		walls = new Wall[2];
 		walls[0] = new Wall(0, 0, roomWidth, 16, img_wall);
@@ -90,9 +90,10 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void gameLoop() {
+		
 		if (checkBallColission() != null) {
 			
-			
+			ball.changeDirection(checkBallColission());
 			
 		}
 		
@@ -104,6 +105,7 @@ public class Game extends Canvas implements Runnable {
 	public String checkBallColission() {
 		
 		if (ball.intersects(player)) {
+			System.out.println("player collision");
 			return "player";
 		}
 		
