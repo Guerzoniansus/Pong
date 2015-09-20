@@ -20,8 +20,8 @@ public class Game extends Canvas implements Runnable {
 
 	Graphics graphics;
 
-	int roomWidth;
-	int roomHeight;
+	public static int roomWidth;
+	public static int roomHeight;
 
 	Image img_wall, img_bat;
 	
@@ -30,9 +30,13 @@ public class Game extends Canvas implements Runnable {
 	int batHeight = 64;
 	int batWidth = 16;
 	
-	int ballspeed = 5;
+	int ballspeedX = 6;
+	int ballspeedY = 2;
+	int ballStartingX = 200;
+	int ballStartingY = 250;
 
-	Bat player, ai;
+	Bat player;
+	Ai ai;
 	Ball ball;
 
 	boolean isRunning;
@@ -41,8 +45,8 @@ public class Game extends Canvas implements Runnable {
 
 	public Game(int roomWidth, int roomHeight) {
 
-		this.roomWidth = roomWidth;
-		this.roomHeight = roomHeight;
+		Game.roomWidth = roomWidth;
+		Game.roomHeight = roomHeight;
 
 		try {
 
@@ -59,8 +63,9 @@ public class Game extends Canvas implements Runnable {
 
 		game.addMouseMotionListener(new MouseListener());
 
-		player = new Bat(roomWidth - 70, roomHeight / 2 - 20, img_bat, game);
-		ball = new Ball(200, 300, 16, 16, 3.5, 1, Direction.RIGHT, Direction.UP);
+		player = new Bat(roomWidth - 70, roomHeight / 2 - 20, batWidth, batHeight, img_bat, game);
+		ai = new Ai(70, roomHeight / 2 - 20, batWidth, batHeight, img_bat, game);
+		ball = new Ball(ballStartingX, ballStartingY, 16, 16, ballspeedX, ballspeedY, Direction.RIGHT, Direction.UP);
 		
 		walls = new Wall[2];
 		walls[0] = new Wall(0, 0, roomWidth, 16, img_wall);
@@ -98,8 +103,13 @@ public class Game extends Canvas implements Runnable {
 		}
 		
 		ball.updatePosition();
+		ai.updatePosition();
 
 		repaint();
+	}
+	
+	public Ball getBall() {
+		return ball;
 	}
 	
 	public String checkBallColission() {
@@ -107,6 +117,10 @@ public class Game extends Canvas implements Runnable {
 		if (ball.intersects(player)) {
 			System.out.println("player collision");
 			return "player";
+		}
+		
+		else if (ball.intersects(ai)) {
+			return "ai";
 		}
 		
 		else if (ball.intersects(walls[0]) || ball.intersects(walls[1])) {
@@ -130,6 +144,7 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.WHITE);
 		
 		ball.draw(g);
+		ai.draw(g);
 		player.draw(g);
 		
 		for (Wall wall : walls) {

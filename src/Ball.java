@@ -3,6 +3,9 @@ import java.awt.Rectangle;
 
 public class Ball extends Rectangle {
 	
+	int startingX;
+	int startingY;
+	
 	public double x;
 	public double y;
 	
@@ -19,12 +22,16 @@ public class Ball extends Rectangle {
 		
 		this.x = x;
 		this.y = y;
+		this.startingX = x;
+		this.startingY = y;
 		this.width = width;
 		this.height = height;
 		this.ballspeedX = ballspeedX;
 		this.ballspeedY = ballspeedY;
 		this.directionHorizontal = horizontal;
 		this.directionVertical = vertical;
+		
+		this.setBounds(x, y, width, height);
 		
 	}
 	
@@ -42,11 +49,18 @@ public class Ball extends Rectangle {
 		case UP: y = y - ballspeedY; break;
 		case DOWN: y = y + ballspeedY; break;
 		}
+		
+		if (x > Game.roomWidth || x - 16 < 0) {
+			x = startingX;
+			y = startingY;
+		}
+		
+		this.setLocation((int) x, (int) y);
 	}
 	
 	public void changeDirection(String collision) {
 		
-		if (collision.equals("player")) {
+		if (collision.equals("player") || collision.equals("ai")) {
 			
 			setDirection("horizontal", getOppositeDirection(getDirectionHorizontal()));
 			

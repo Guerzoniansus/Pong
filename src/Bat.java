@@ -9,13 +9,18 @@ public class Bat extends Rectangle {
 
 	int x;
 	double y;
+	int width;
+	int height;
 
-	public Bat(int x, int y, Image sprite, Game game) {
+	public Bat(int x, int y, int width, int height, Image sprite, Game game) {
 
 		this.game = game;
 		this.sprite = sprite;
 		this.x = x;
 		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.setBounds(x, y, width, height);
 
 	}
 
@@ -32,6 +37,8 @@ public class Bat extends Rectangle {
 		if (y > game.roomHeight - sprite.getHeight(null) - game.img_wall.getHeight(null) - 13) {
 			y = game.roomHeight - sprite.getHeight(null) - game.img_wall.getHeight(null) - 13;
 		}
+		
+		this.setLocation(x, (int) y);
 
 	}
 	

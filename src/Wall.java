@@ -18,6 +18,11 @@ public class Wall extends Rectangle {
 		this.height = height;
 		
 		this.sprite = sprite;
+		
+		this.setBounds(x, y, width, height);
+		this.setLocation(x, y);
+		
+		
 	}
 	
 	public void draw(Graphics g) {
