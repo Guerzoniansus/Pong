@@ -36,6 +36,11 @@ public class Game extends Canvas implements Runnable {
 	Ball ball;
 
 	boolean isRunning;
+	
+	int FRAMES_PER_SECOND = 25;
+    int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
+    long next_game_tick = System.currentTimeMillis();
+    int frame = 1;
 
 	public Game(int roomWidth, int roomHeight) {
 
@@ -62,7 +67,7 @@ public class Game extends Canvas implements Runnable {
 		
 		walls = new Wall[2];
 		walls[0] = new Wall(0, 0, roomWidth, 16, img_wall);
-		walls[1] = new Wall(0, 0, roomWidth, 16, img_wall);
+		walls[1] = new Wall(0, roomHeight - 45, roomWidth, 16, img_wall);
 
 		isRunning = true;
 	}
@@ -71,19 +76,24 @@ public class Game extends Canvas implements Runnable {
 	public void run() {
 
 		while (isRunning) {
+						
+			gameLoop();		
 			
-			if (checkBallColission() != null) {
-				
-				
-				
-			}
-			
-			ball.updatePosition();
-
-			repaint();
-
 		}
+		
 
+	}
+	
+	public void gameLoop() {
+		if (checkBallColission() != null) {
+			
+			
+			
+		}
+		
+		ball.updatePosition();
+
+		repaint();
 	}
 	
 	public String checkBallColission() {
