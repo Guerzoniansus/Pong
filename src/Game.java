@@ -37,10 +37,7 @@ public class Game extends Canvas implements Runnable {
 
 	boolean isRunning;
 	
-	int FRAMES_PER_SECOND = 25;
-    int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
-    long next_game_tick = System.currentTimeMillis();
-    int frame = 1;
+	int FPS = 1000 / 60;
 
 	public Game(int roomWidth, int roomHeight) {
 
@@ -71,13 +68,21 @@ public class Game extends Canvas implements Runnable {
 
 		isRunning = true;
 	}
-
+	
+	
 	@Override
 	public void run() {
 
 		while (isRunning) {
 						
-			gameLoop();		
+			gameLoop();
+			
+			try {
+				Thread.sleep(FPS);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 		
